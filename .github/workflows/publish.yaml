@@ -34,3 +34,6 @@ jobs:
 
       - name: Build libraries
         run: pnpm nx run-many --target=build --all
+
+      - name: Publish libraries
+        run: pnpm nx run-many --target=nx-release-publish --all

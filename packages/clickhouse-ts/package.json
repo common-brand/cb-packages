@@ -1,5 +1,5 @@
 {
-  "name": "@cb/clickhouse-ts",
+  "name": "@cbts/clickhouse-ts",
   "description": "Helper library for @clickhouse/client",
   "version": "1.0.0",
   "main": "./index.cjs.js",

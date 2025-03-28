@@ -3,6 +3,7 @@
   <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
     <projects>
       <project name="@cb/packages" file="file://$PROJECT_DIR$/project.json" />
+      <project name="@cbts/bottleneck" file="file://$PROJECT_DIR$/packages/bottleneck/project.json" />
       <project name="clickhouse" file="file://$PROJECT_DIR$/packages/clickhouse/project.json" />
       <project name="redis" file="file://$PROJECT_DIR$/packages/redis/project.json" />
     </projects>

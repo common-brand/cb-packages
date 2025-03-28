@@ -1,0 +1,26 @@
+{
+  "name": "@cbts/bottleneck",
+  "description": "Helper library for bottleneck",
+  "version": "1.0.0",
+  "main": "./index.cjs.js",
+  "module": "./index.esm.js",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/common-brand/cb-packages.git"
+  },
+  "keywords": [
+    "bottleneck"
+  ],
+  "dependencies": {
+    "@sergiiivzhenko/bottleneck": "^2.19.7"
+  },
+  "types": "./index.esm.d.ts",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

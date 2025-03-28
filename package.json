@@ -5,8 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/common-brand/cb-packages.git",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -35,5 +35,7 @@
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
   },
-  "nx": {}
+  "nx": {
+    "includedScripts": []
+  }
 }

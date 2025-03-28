@@ -1,7 +1,7 @@
 import {ClickhouseConnection} from "@cbts/clickhouse";
 import {last, maybeLast} from "@subsquid/util-internal";
 import {FinalTxInfo, HashAndHeight, HotDatabase, HotTxInfo} from "@subsquid/util-internal-processor-tools";
-import * as assert from "assert";
+import assert from "assert";
 import Debug from "debug";
 
 import {ChangeTracker, rollbackBlock} from "./hot";

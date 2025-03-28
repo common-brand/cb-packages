@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cb/clickhouse-ts": ["packages/clickhouse-ts/src/index.ts"]
+      "@cb/clickhouse-ts": ["packages/clickhouse-ts/src/index.ts"],
+      "@cbts/redis": ["packages/redis/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

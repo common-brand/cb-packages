@@ -4,6 +4,7 @@
     <projects>
       <project name="@cb/packages" file="file://$PROJECT_DIR$/project.json" />
       <project name="clickhouse-ts" file="file://$PROJECT_DIR$/packages/clickhouse-ts/project.json" />
+      <project name="redis" file="file://$PROJECT_DIR$/packages/redis/project.json" />
     </projects>
   </component>
 </project>

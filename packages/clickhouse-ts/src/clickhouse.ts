@@ -4,7 +4,7 @@ import Debug, { Debugger } from "debug";
 
 import { constants } from "./constants";
 
-const debug = Debug("dahlia:clickhouse.ts");
+const debug = Debug("cbts:clickhouse.ts");
 
 export class ClickhouseTimer {
   private clickhouse: ClickhouseConnection;

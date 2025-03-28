@@ -1,0 +1,32 @@
+{
+  "name": "@cbts/redis",
+  "description": "Helper library for ioredis",
+  "version": "1.0.0",
+  "main": "./index.cjs.js",
+  "module": "./index.esm.js",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/common-brand/cb-packages.git"
+  },
+  "keywords": [
+    "redis"
+  ],
+  "dependencies": {
+    "debug": "^4.4.0",
+    "ioredis": "^5.6.0",
+    "joi": "^17.13.3",
+    "superjson": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.12"
+  },
+  "types": "./index.esm.d.ts",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

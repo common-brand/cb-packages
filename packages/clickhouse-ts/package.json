@@ -26,5 +26,8 @@
   "types": "./index.esm.d.ts",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

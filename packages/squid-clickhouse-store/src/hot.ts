@@ -1,10 +1,9 @@
 import * as JSONbig from "@andreybest/json-bigint";
 import { ClickhouseConnection } from "@cbts/clickhouse";
-import Debug from "debug";
+import {Debugger} from "debug";
 
 import { ClickhouseTableConfig } from "./database";
 
-const debug = Debug(`cbts:clickhouse-store-hot`);
 
 export interface RowRef {
   table: string;
@@ -40,7 +39,9 @@ export class ChangeTracker {
     private client: ClickhouseConnection,
     private statusSchema: string,
     private blockHeight: number,
-  ) {}
+    private debug: Debugger
+  ) {
+  }
 
   trackInsert(tableName: string, ids: string[]): Promise<void> {
     return this.writeChangeRows(
@@ -79,11 +80,12 @@ export class ChangeTracker {
           log_index: this.index++,
         };
       }),
+        this.debug
     );
   }
 }
 
-export async function insertHotChangeLog(statusSchema: string, client: ClickhouseConnection, changes: ChangeRow[]) {
+export async function insertHotChangeLog(statusSchema: string, client: ClickhouseConnection, changes: ChangeRow[], debug: Debugger): Promise<void> {
   const values: { height: number; log_index: number; changes: string }[] = changes.map((i) => {
     return {
       height: i.height,
@@ -100,6 +102,7 @@ export async function rollbackBlock(
   blockHeight: number,
   chainId: number,
   tableConfig: ClickhouseTableConfig,
+  debug: Debugger
 ): Promise<void> {
   const hotChangeLog = await client.query<{ height: number; log_index: number; changes: string }>(
     `SELECT height, log_index, changes

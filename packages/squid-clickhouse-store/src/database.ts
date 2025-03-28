@@ -2,18 +2,17 @@ import {ClickhouseConnection} from "@cbts/clickhouse";
 import {last, maybeLast} from "@subsquid/util-internal";
 import {FinalTxInfo, HashAndHeight, HotDatabase, HotTxInfo} from "@subsquid/util-internal-processor-tools";
 import assert from "assert";
-import Debug from "debug";
+import Debug, {Debugger} from "debug";
 
 import {ChangeTracker, rollbackBlock} from "./hot";
 import {DatabaseState} from "./interfaces";
 import {Store} from "./store";
 
-const debug = Debug(`cbts:clickhouse-store-database`);
-
 export type ClickhouseTableConfig = Record<string, { trackBy: string; relatedDicts?: string[] }>;
 
 export interface ClickhouseDatabaseOptions {
   chainId: number;
+  debug: Debugger;
   supportHotBlocks?: boolean;
   client: ClickhouseConnection;
   stateSchema: string;
@@ -26,6 +25,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
   private stateSchema: string;
   private client: ClickhouseConnection;
   private tablesConfig!: ClickhouseTableConfig;
+  private debug;
   public supportsHotBlocks = true as const;
 
   constructor(options?: ClickhouseDatabaseOptions) {
@@ -33,6 +33,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
     this.tablesConfig = options?.tablesConfig || ({} as ClickhouseTableConfig);
     this.client = options?.client || new ClickhouseConnection();
     this.stateSchema = options?.stateSchema || "";
+    this.debug = options?.debug || Debug(`cbts:clickhouse-store-database`);
   }
 
   async connect(): Promise<DatabaseState> {
@@ -44,7 +45,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
   }
 
   async transact(info: FinalTxInfo, cb: (_: Store) => Promise<void>): Promise<void> {
-    debug("transact %o", info);
+    this.debug("transact %o", info);
     const state = await this.getState();
     const { prevHead: prev, nextHead: next } = info;
     // state and info.prevHead must be the same
@@ -54,7 +55,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
     // rollback all top blocks
     for (let i = state.top.length - 1; i >= 0; i--) {
       const block = state.top[i];
-      await rollbackBlock(this.stateSchema, this.client, block.height, this.chainId, this.tablesConfig);
+      await rollbackBlock(this.stateSchema, this.client, block.height, this.chainId, this.tablesConfig, this.debug);
     }
     await this.performUpdates(cb);
     await this.updateStatus(next);
@@ -74,7 +75,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
   ): Promise<void> {
     const state = await this.getState();
     let chain = [state, ...state.top];
-    debug("transactHot2 %o", {
+    this.debug("transactHot2 %o", {
       info,
       stateHead: chain[0].height,
       rollbackPos: info.baseHead.height + 1 - chain[0].height,
@@ -94,7 +95,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
 
     const rollbackPos = info.baseHead.height + 1 - chain[0].height;
     for (let i = chain.length - 1; i >= rollbackPos; i--) {
-      await rollbackBlock(this.stateSchema, this.client, chain[i].height, this.chainId, this.tablesConfig);
+      await rollbackBlock(this.stateSchema, this.client, chain[i].height, this.chainId, this.tablesConfig, this.debug);
     }
 
     if (info.newBlocks.length) {
@@ -110,7 +111,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
         await this.insertHotBlock(b);
         await this.performUpdates(
           (store) => cb(store, i, i + 1),
-          new ChangeTracker(this.client, this.stateSchema, b.height),
+          new ChangeTracker(this.client, this.stateSchema, b.height, this.debug),
         );
       }
     }
@@ -118,7 +119,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
     const finalizedHeadPos = info.finalizedHead.height - chain[0].height;
 
     if (chain[finalizedHeadPos].hash != info.finalizedHead.hash) {
-      debug("!!! chain[finalizedHeadPos].hash != info.finalizedHead.hash; %o", {
+      this.debug("!!! chain[finalizedHeadPos].hash != info.finalizedHead.hash; %o", {
         finalizedHeadPos,
         "chain[finalizedHeadPos].height": chain[finalizedHeadPos].height,
         "info.finalizedHead.height": info.finalizedHead.height,
@@ -139,7 +140,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
        ON CLUSTER cluster1
        WHERE height <= ${finalizedHeight}
          AND chain_id = ${this.chainId}`,
-      debug,
+      this.debug,
     );
   }
 
@@ -177,7 +178,7 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
        FROM ${this.stateSchema}.hot_block FINAL
        WHERE chain_id = ${this.chainId}
        ORDER BY height ASC`,
-        debug,
+        this.debug,
     );
   }
 

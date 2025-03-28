@@ -1,5 +1,5 @@
 {
-  "name": "@cb/clickhouse-ts",
+  "name": "clickhouse-ts",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/clickhouse-ts/src",
   "projectType": "library",

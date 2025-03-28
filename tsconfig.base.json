@@ -17,7 +17,10 @@
     "paths": {
       "@cb/clickhouse": ["packages/clickhouse/src/index.ts"],
       "@cbts/bottleneck": ["packages/bottleneck/src/index.ts"],
-      "@cbts/redis": ["packages/redis/src/index.ts"]
+      "@cbts/redis": ["packages/redis/src/index.ts"],
+      "@cbts/squid-clickhouse-store": [
+        "packages/squid-clickhouse-store/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

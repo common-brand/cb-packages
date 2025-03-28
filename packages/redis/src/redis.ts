@@ -34,10 +34,10 @@ export const redisOptions: RedisOptions = SENTINEL_PASSWORD
     };
 debug("redisOptions=%j", redisOptions);
 
-export const connection = new Redis(redisOptions);
+export const redis = new Redis(redisOptions);
 
 // connection.on("ready", () => debug("redis connection is ready %j", redisOptions));
-connection.on("error", (err) => {
+redis.on("error", (err) => {
   debug("Redis connection error:%j", err.message);
 
   // For critical errors, you might want to terminate the process

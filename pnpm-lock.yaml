@@ -78,7 +78,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.9(@types/debug@4.1.12)(@types/node@18.16.9)(@vitest/ui@3.0.9)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0)
 
-  packages/clickhouse-ts:
+  packages/clickhouse:
     dependencies:
       '@clickhouse/client':
         specifier: ^1.11.0

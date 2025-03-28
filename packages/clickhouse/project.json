@@ -1,7 +1,7 @@
 {
-  "name": "clickhouse-ts",
+  "name": "clickhouse",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/clickhouse-ts/src",
+  "sourceRoot": "packages/clickhouse/src",
   "projectType": "library",
   "release": {
     "version": {

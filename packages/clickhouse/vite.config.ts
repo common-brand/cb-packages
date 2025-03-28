@@ -4,7 +4,7 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/packages/clickhouse-ts',
+  cacheDir: '../../node_modules/.vite/packages/clickhouse',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   // Uncomment this if you are using workers.
   // worker: {
@@ -17,7 +17,7 @@ export default defineConfig(() => ({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/packages/clickhouse-ts',
+      reportsDirectory: '../../coverage/packages/clickhouse',
       provider: 'v8' as const,
     },
   },

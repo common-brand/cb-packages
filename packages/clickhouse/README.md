@@ -1,4 +1,4 @@
-# @cbts/clickhouse-ts
+# @cbts/clickhouse
 
 A lightweight wrapper around the @clickhouse/client library, designed to simplify and optimize ClickHouse usage.
 

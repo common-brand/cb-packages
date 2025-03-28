@@ -4,7 +4,7 @@ import Debug from "debug";
 
 import { ClickhouseTableConfig } from "./database";
 
-const debug = Debug(`dahlia:clickhouse-store-hot`);
+const debug = Debug(`cbts:clickhouse-store-hot`);
 
 export interface RowRef {
   table: string;

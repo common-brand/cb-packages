@@ -1,11 +1,6 @@
-# clickhouse-ts
+# @cbts/clickhouse-ts
 
-This library was generated with [Nx](https://nx.dev).
+This is a wrapper around @clickhouse/client library.
 
-## Building
-
-Run `nx build clickhouse-ts` to build the library.
-
-## Running unit tests
-
-Run `nx test clickhouse-ts` to execute the unit tests via [Vitest](https://vitest.dev/).
+* It provide separate read only connection for selects
+* It provide separate write only connection for inserts, updates and deletes

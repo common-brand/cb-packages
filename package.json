@@ -5,6 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/common-brand/cb-packages.git",
   "scripts": {
+    "build": "nx run-many --target=build --all"
   },
   "private": true,
   "keywords": [],

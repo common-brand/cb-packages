@@ -1,6 +1,5 @@
 # @cbts/clickhouse-ts
 
-This is a wrapper around @clickhouse/client library.
-
-* It provide separate read only connection for selects
-* It provide separate write only connection for inserts, updates and deletes
+A lightweight wrapper around the @clickhouse/client library, designed to simplify and optimize ClickHouse usage.
+•	Provides a dedicated read-only connection for SELECT queries.
+•	Provides a dedicated write-only connection for INSERT, UPDATE, and DELETE operations.

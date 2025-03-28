@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
+    <projects>
+      <project name="@cb/clickhouse-ts" file="file://$PROJECT_DIR$/packages/clickhouse-ts/project.json" />
+      <project name="@cb/packages" file="file://$PROJECT_DIR$/project.json" />
+    </projects>
+  </component>
+</project>

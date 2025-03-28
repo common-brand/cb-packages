@@ -1,0 +1,14 @@
+{
+  "name": "@cb/clickhouse-ts",
+  "version": "1.0.0",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "dependencies": {
+    "@clickhouse/client": "^1.11.0",
+    "@clickhouse/client-common": "^1.11.0",
+    "debug": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.12"
+  }
+}

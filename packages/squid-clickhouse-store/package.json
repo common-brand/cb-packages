@@ -1,7 +1,7 @@
 {
   "name": "@cbts/squid-clickhouse-store",
   "description": "Squid ClickHouse Store",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "./index.cjs.js",
   "module": "./index.esm.js",
   "license": "MIT",

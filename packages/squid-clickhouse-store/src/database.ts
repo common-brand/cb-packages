@@ -178,7 +178,6 @@ export class ClickhouseDatabase implements HotDatabase<Store> {
        FROM ${this.stateSchema}.hot_block FINAL
        WHERE chain_id = ${this.chainId}
        ORDER BY height ASC`,
-        this.debug,
     );
   }
 

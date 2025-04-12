@@ -51,9 +51,6 @@ export class Store {
   }
 
   async writeRecords(debug: Debugger) {
-    if (Object.keys(this.records).length) {
-      debug("write records %o", this.records);
-    }
     for (const table of Object.keys(this.records)) {
       await this.insert(table, this.records[table], debug, table);
       const relatedDicts = this.tablesConfig?.[table].relatedDicts;

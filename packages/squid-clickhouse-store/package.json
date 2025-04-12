@@ -1,7 +1,7 @@
 {
   "name": "@cbts/squid-clickhouse-store",
   "description": "Squid ClickHouse Store",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./index.cjs.js",
   "module": "./index.esm.js",
   "license": "MIT",
@@ -26,10 +26,9 @@
   },
   "types": "./index.esm.d.ts",
   "engines": {
-  "node": ">=18"
-},
+    "node": ">=18"
+  },
   "publishConfig": {
     "access": "public"
   }
-
 }

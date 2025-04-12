@@ -1,9 +1,8 @@
-import * as JSONbig from "@andreybest/json-bigint";
-import { ClickhouseConnection } from "@cbts/clickhouse";
-import {Debugger} from "debug";
+import * as JSONbig from '@andreybest/json-bigint';
+import { ClickhouseConnection } from '@cbts/clickhouse';
+import { Debugger } from 'debug';
 
-import { ClickhouseTableConfig } from "./database";
-
+import { ClickhouseTableConfig } from './database';
 
 export interface RowRef {
   table: string;
@@ -11,16 +10,16 @@ export interface RowRef {
 }
 
 export interface InsertRecord extends RowRef {
-  kind: "insert";
+  kind: 'insert';
 }
 
 export interface DeleteRecord extends RowRef {
-  kind: "delete";
+  kind: 'delete';
   fields: Record<string, unknown>;
 }
 
 export interface UpdateRecord extends RowRef {
-  kind: "update";
+  kind: 'update';
   fields: Record<string, unknown>;
 }
 
@@ -40,18 +39,17 @@ export class ChangeTracker {
     private statusSchema: string,
     private blockHeight: number,
     private debug: Debugger
-  ) {
-  }
+  ) {}
 
   trackInsert(tableName: string, ids: string[]): Promise<void> {
     return this.writeChangeRows(
       ids.map((id) => {
         return {
-          kind: "insert",
+          kind: 'insert',
           table: tableName,
           id,
         };
-      }),
+      })
     );
   }
 
@@ -60,12 +58,12 @@ export class ChangeTracker {
       ids.map((id) => {
         // const { id, ...fields } = e;
         return {
-          kind: "delete",
+          kind: 'delete',
           table: tableName,
           id,
           fields: {},
         };
-      }),
+      })
     );
   }
 
@@ -80,19 +78,25 @@ export class ChangeTracker {
           log_index: this.index++,
         };
       }),
-        this.debug
+      this.debug
     );
   }
 }
 
-export async function insertHotChangeLog(statusSchema: string, client: ClickhouseConnection, changes: ChangeRow[], debug: Debugger): Promise<void> {
-  const values: { height: number; log_index: number; changes: string }[] = changes.map((i) => {
-    return {
-      height: i.height,
-      log_index: i.log_index,
-      changes: JSONbig.stringify(i.changes),
-    };
-  });
+export async function insertHotChangeLog(
+  statusSchema: string,
+  client: ClickhouseConnection,
+  changes: ChangeRow[],
+  debug: Debugger
+): Promise<void> {
+  const values: { height: number; log_index: number; changes: string }[] =
+    changes.map((i) => {
+      return {
+        height: i.height,
+        log_index: i.log_index,
+        changes: JSONbig.stringify(i.changes),
+      };
+    });
   await client.insert(`${statusSchema}.hot_change_log`, values, debug);
 }
 
@@ -104,14 +108,17 @@ export async function rollbackBlock(
   tableConfig: ClickhouseTableConfig,
   debug: Debugger
 ): Promise<void> {
-  const hotChangeLog = await client.query<{ height: number; log_index: number; changes: string }>(
+  const hotChangeLog = await client.query<{
+    height: number;
+    log_index: number;
+    changes: string;
+  }>(
     `SELECT height, log_index, changes
      FROM ${statusSchema}.hot_change_log FINAL
      WHERE height = ${blockHeight}
        AND chain_id = ${chainId}
      ORDER BY log_index DESC
-    `,
-    debug,
+    `
   );
 
   for (const rec of hotChangeLog) {
@@ -119,14 +126,14 @@ export async function rollbackBlock(
     const trackBy = tableConfig[table]?.trackBy;
 
     switch (kind) {
-      case "insert":
+      case 'insert':
         await client.query(
           `DELETE
            FROM ${table}
            ON CLUSTER cluster1
            WHERE ${trackBy} = ${id}
              AND chain_id = ${chainId}`,
-          debug,
+          debug
         );
         break;
     }
@@ -137,7 +144,6 @@ export async function rollbackBlock(
      FROM ${statusSchema}.hot_block
      ON CLUSTER cluster1
      WHERE height = ${blockHeight}
-       AND chain_id = ${chainId}`,
-    debug,
+       AND chain_id = ${chainId}`
   );
 }

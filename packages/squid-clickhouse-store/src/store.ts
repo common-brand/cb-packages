@@ -1,9 +1,9 @@
-import { ClickhouseConnection } from "@cbts/clickhouse";
-import { ClickHouseSettings } from "@clickhouse/client";
-import { Debugger } from "debug";
+import { ClickhouseConnection } from '@cbts/clickhouse';
+import { ClickHouseSettings } from '@clickhouse/client';
+import { Debugger } from 'debug';
 
-import { ClickhouseTableConfig } from "./database";
-import { ChangeTracker } from "./hot";
+import { ClickhouseTableConfig } from './database';
+import { ChangeTracker } from './hot';
 
 export interface EntityClass<T> {
   new (): T;
@@ -15,7 +15,7 @@ export class Store {
   constructor(
     public client: ClickhouseConnection,
     private changeTracker?: ChangeTracker,
-    private tablesConfig?: ClickhouseTableConfig,
+    private tablesConfig?: ClickhouseTableConfig
   ) {
     this.records = {};
   }
@@ -25,20 +25,24 @@ export class Store {
     values: ReadonlyArray<T>,
     debug?: Debugger,
     log_comment?: string,
-    clickhouse_settings?: ClickHouseSettings,
+    clickhouse_settings?: ClickHouseSettings
   ): Promise<number> {
     if (!values?.length) {
       return 0;
     }
-    const res = await this.client.insert(table, values, debug, log_comment, clickhouse_settings);
+    const res = await this.client.insert(
+      table,
+      values,
+      debug,
+      log_comment,
+      clickhouse_settings
+    );
     const trackBy = this.tablesConfig?.[table]?.trackBy;
     if (this.changeTracker && trackBy) {
-      const ids = values.map((i) => (i as Record<string, string>)[trackBy]).filter(Boolean);
-      debug?.("HOT INSERT: %o", {
-        table,
-        ids,
-      });
-      await this.changeTracker.trackInsert(table, ids);
+      const ids = values
+        .map((i) => (i as Record<string, string>)[trackBy])
+        .filter(Boolean);
+      await this.changeTracker.trackInsert(table, [...new Set(ids)]);
     }
     return res;
   }

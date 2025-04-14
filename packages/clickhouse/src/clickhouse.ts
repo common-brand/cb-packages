@@ -64,7 +64,7 @@ export class ClickhouseConnection {
       },
       request_timeout: 60_000,
     };
-    debug("writer: %j reader: %j", settings, envReader);
+    debug("writer: %j reader: %j", envWriter, envReader);
     this.writer = createClient(envWriter);
     this.reader = createClient(envReader);
   }

@@ -35,13 +35,13 @@ export class ClickhouseDatabase {
   private debug;
   public supportsHotBlocks: boolean;
 
-  constructor(options?: ClickhouseDatabaseOptions) {
-    this.chainId = options?.chainId || 0;
-    this.tablesConfig = options?.tablesConfig || ({} as ClickhouseTableConfig);
-    this.client = options?.client || new ClickhouseConnection();
-    this.stateSchema = options?.stateSchema || '';
-    this.debug = options?.debug || Debug(`cbts:clickhouse-store-database`);
-    this.supportsHotBlocks = options?.supportHotBlocks !== false;
+  constructor(options: ClickhouseDatabaseOptions) {
+    this.chainId = options.chainId || 0;
+    this.tablesConfig = options.tablesConfig || ({} as ClickhouseTableConfig);
+    this.client = options.client;
+    this.stateSchema = options.stateSchema || '';
+    this.debug = options.debug || Debug(`cbts:clickhouse-store-database`);
+    this.supportsHotBlocks = options.supportHotBlocks !== false;
   }
 
   async connect(): Promise<DatabaseState> {

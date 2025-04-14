@@ -74,6 +74,9 @@ export class ClickhouseConnection {
       url: process.env["CLICKHOUSE_URL"],
       username: process.env["CLICKHOUSE_USER"] || "default",
       password: process.env["CLICKHOUSE_PASSWORD"] || "",
+      keep_alive: {
+        enabled: false,
+      },
     };
   }
 

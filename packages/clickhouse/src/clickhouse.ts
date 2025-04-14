@@ -253,6 +253,3 @@ export class ClickhouseConnection {
     return new ClickhouseTimer(this);
   }
 }
-
-const clickhouse = new ClickhouseConnection();
-export { clickhouse };

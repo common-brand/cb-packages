@@ -39,28 +39,41 @@ export class ClickhouseConnection {
   public writer: ClickHouseClient;
   public reader: ClickHouseClient;
 
-  constructor(config: ClickHouseClientConfigOptions = ClickhouseConnection.getClientConfigOptions()) {
-    const envReader: ClickHouseClientConfigOptions = {
-      ...config,
-      clickhouse_settings: { readonly: "1" },
-      request_timeout: 60_000,
-      ...config,
+  constructor(settings: ClickHouseSettings = {}) {
+    const commons: ClickHouseSettings = {
+      async_insert: 1,
+      lightweight_deletes_sync: '2',
+      mutations_sync: '2',
+      wait_for_async_insert: 1,
+      apply_mutations_on_fly: 1,
     };
-    debug("writer: %j reader: %j", config, envReader);
-    this.writer = createClient(config);
+    const envReader: ClickHouseClientConfigOptions = {
+      ...ClickhouseConnection.getClickHouseConfig(),
+      clickhouse_settings: {
+        readonly: "1",
+        ...commons,
+        ...settings
+      },
+      request_timeout: 60_000,
+    };
+    const envWriter: ClickHouseClientConfigOptions = {
+      ...ClickhouseConnection.getClickHouseConfig(),
+      clickhouse_settings: {
+        ...commons,
+        ...settings
+      },
+      request_timeout: 60_000,
+    };
+    debug("writer: %j reader: %j", settings, envReader);
+    this.writer = createClient(envWriter);
     this.reader = createClient(envReader);
   }
 
-  static getClientConfigOptions(): ClickHouseClientConfigOptions {
+  static getClickHouseConfig(): ClickHouseClientConfigOptions {
     return {
       url: process.env["CLICKHOUSE_URL"],
       username: process.env["CLICKHOUSE_USER"] || "default",
       password: process.env["CLICKHOUSE_PASSWORD"] || "",
-      clickhouse_settings: {
-        async_insert: 1,
-        wait_for_async_insert: 1,
-        apply_mutations_on_fly: 1,
-      },
     };
   }
 

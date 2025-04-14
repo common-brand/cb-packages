@@ -1,7 +1,7 @@
 {
   "name": "@cbts/clickhouse",
   "description": "Helper library for @clickhouse/client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./index.cjs.js",
   "module": "./index.esm.js",
   "license": "MIT",

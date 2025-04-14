@@ -95,12 +95,6 @@ export class ClickhouseDatabase {
   ): Promise<void> {
     const state = await this.getState();
     let chain = [state, ...state.top];
-    this.debug('transactHot2 %o', {
-      info,
-      stateHead: chain[0].height,
-      rollbackPos: info.baseHead.height + 1 - chain[0].height,
-      finalizeEnd: info.finalizedHead.height - info.newBlocks[0].height + 1,
-    });
 
     assertChainContinuity(info.baseHead, info.newBlocks);
     assert(

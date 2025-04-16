@@ -15,14 +15,16 @@
   ],
   "dependencies": {
     "@andreybest/json-bigint": "^1.0.4",
-    "@cbts/clickhouse": "^1.0.0",
-    "@clickhouse/client": "^1.11.0",
     "@subsquid/util-internal": "^3.2.0",
     "@subsquid/util-internal-processor-tools": "^4.2.1",
     "debug": "^4.4.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12"
+  },
+  "peerDependencies": {
+    "@cbts/clickhouse": "^1.0.0",
+    "@clickhouse/client": "^1.0.0"
   },
   "types": "./index.esm.d.ts",
   "engines": {

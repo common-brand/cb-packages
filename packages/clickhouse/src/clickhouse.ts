@@ -40,18 +40,10 @@ export class ClickhouseConnection {
   public reader: ClickHouseClient;
 
   constructor(settings: ClickHouseSettings = {}) {
-    const commons: ClickHouseSettings = {
-      async_insert: 1,
-      lightweight_deletes_sync: '2',
-      mutations_sync: '2',
-      wait_for_async_insert: 1,
-      apply_mutations_on_fly: 1,
-    };
     const envReader: ClickHouseClientConfigOptions = {
       ...ClickhouseConnection.getClickHouseConfig(),
       clickhouse_settings: {
         readonly: "1",
-        ...commons,
         ...settings
       },
       request_timeout: 60_000,
@@ -59,7 +51,6 @@ export class ClickhouseConnection {
     const envWriter: ClickHouseClientConfigOptions = {
       ...ClickhouseConnection.getClickHouseConfig(),
       clickhouse_settings: {
-        ...commons,
         ...settings
       },
       request_timeout: 60_000,

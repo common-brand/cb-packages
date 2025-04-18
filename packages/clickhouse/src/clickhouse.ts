@@ -3,6 +3,7 @@ import { CommandResult } from "@clickhouse/client-common";
 import Debug, { Debugger } from "debug";
 
 import { constants } from "./constants";
+import {NodeClickHouseClientConfigOptions} from "@clickhouse/client/dist/config";
 
 const debug = Debug("cbts:clickhouse.ts");
 
@@ -39,9 +40,10 @@ export class ClickhouseConnection {
   public writer: ClickHouseClient;
   public reader: ClickHouseClient;
 
-  constructor(settings: ClickHouseSettings = {}) {
+  constructor(settings: ClickHouseSettings = {}, config: NodeClickHouseClientConfigOptions = {}) {
     const envReader: ClickHouseClientConfigOptions = {
       ...ClickhouseConnection.getClickHouseConfig(),
+      ...config,
       clickhouse_settings: {
         readonly: "1",
         ...settings
@@ -50,6 +52,7 @@ export class ClickhouseConnection {
     };
     const envWriter: ClickHouseClientConfigOptions = {
       ...ClickhouseConnection.getClickHouseConfig(),
+      ...config,
       clickhouse_settings: {
         ...settings
       },
